@@ -20,7 +20,7 @@ const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'audio/*': ['.mp3', '.wav', '.m4a', '.aac', '.ogg', '.flac']
+      'audio/*': ['.mp3', '.wav', '.m4a', '.aac', '.ogg', '.flac', '.webm']
     },
     multiple: false,
     maxSize: 100 * 1024 * 1024, // 100MB
@@ -89,7 +89,7 @@ const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
                 </h3>
                 <p className="text-gray-300 max-w-md mx-auto">
                   Drag and drop your audio file here, or click to browse. 
-                  Supports MP3, WAV, M4A, AAC, OGG, and FLAC formats.
+                  Supports MP3, WAV, M4A, AAC, OGG, FLAC, and WEBM formats.
                 </p>
                 <p className="text-sm text-gray-400">
                   Maximum file size: 100MB
@@ -132,7 +132,7 @@ const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
       <div className="mt-6 text-center">
         <p className="text-xs text-gray-400 mb-2">Supported formats:</p>
         <div className="flex flex-wrap items-center justify-center gap-2">
-          {['MP3', 'WAV', 'M4A', 'AAC', 'OGG', 'FLAC']?.map((format) => (
+          {['MP3', 'WAV', 'M4A', 'AAC', 'OGG', 'FLAC', 'WEBM']?.map((format) => (
             <span
               key={format}
               className="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded-md border border-gray-600"

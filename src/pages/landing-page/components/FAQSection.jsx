@@ -45,7 +45,7 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
+    <section className="py-20 bg-gray-900">
       <div className="max-w-4xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

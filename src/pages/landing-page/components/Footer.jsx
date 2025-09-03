@@ -149,47 +149,33 @@ const Footer = () => {
         </motion.div>
 
         {/* Bottom Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="pt-8 border-t border-gray-700"
-        >
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Copyright */}
-            <div className="text-sm text-gray-400">
-              © {currentYear} VoxiFlow. All rights reserved.
+        <div className="border-t border-gray-700 pt-8 mt-12">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="flex items-center space-x-6 mb-4 md:mb-0">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <Icon name="Mic" size={16} className="text-white" />
+                </div>
+                <span className="text-xl font-bold text-white">VoxiFlow</span>
+              </div>
             </div>
-
-            {/* Trust Badges */}
             <div className="flex items-center gap-6">
+              {/* Copyright */}
+              <div className="text-sm text-gray-400">
+                &copy; {currentYear} VoxiFlow. All rights reserved.
+              </div>
+              {/* Trust Badges */}
               <div className="flex items-center gap-2 text-sm text-gray-400">
                 <Icon name="Shield" size={16} className="text-green-400" />
                 <span>SOC 2 Compliant</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <Icon name="Lock" size={16} className="text-purple-400" />
-                <span>GDPR Ready</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-400">
                 <Icon name="Award" size={16} className="text-yellow-400" />
                 <span>ISO 27001</span>
               </div>
             </div>
-
-            {/* Language Selector */}
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <Icon name="Globe" size={16} />
-              <select className="bg-transparent border-none text-gray-400 focus:outline-none">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-              </select>
-            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

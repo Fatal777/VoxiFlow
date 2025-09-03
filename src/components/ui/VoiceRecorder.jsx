@@ -70,7 +70,12 @@ const VoiceRecorder = ({
 
       mediaRecorderRef.current.onstop = async () => {
         const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        onRecordingComplete?.(audioBlob);
+        // Convert blob to File with proper audio extension for analysis
+        const audioFile = new File([audioBlob], `recording-${Date.now()}.webm`, { 
+          type: 'audio/webm',
+          lastModified: Date.now()
+        });
+        onRecordingComplete?.(audioFile);
         
         if (showTranscription) {
           await handleTranscription(audioBlob);
