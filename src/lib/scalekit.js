@@ -1,5 +1,7 @@
 // ScaleKit Authentication Configuration
-// This will be used once you get your ScaleKit credentials from the mosAIc Buildathon
+const SCALEKIT_ENV_URL = process.env.REACT_APP_SCALEKIT_ENVIRONMENT_URL || 'https://voxiflow.scalekit.dev';
+const SCALEKIT_CLIENT_ID = process.env.REACT_APP_SCALEKIT_CLIENT_ID || 'skc_88553148733458692';
+const SCALEKIT_CLIENT_SECRET = process.env.REACT_APP_SCALEKIT_CLIENT_SECRET || 'test_RVMi6NRtngR4pAw7alPFPCsSHrTOgjRStbr4naBQvn8bPXWmVB7wwDnw8AOt07zH';
 
 let scalekitClient = null;
 
