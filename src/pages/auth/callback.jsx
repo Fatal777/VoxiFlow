@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 import Icon from '../../components/AppIcon';
 
 const AuthCallback = () => {
@@ -15,12 +16,23 @@ const AuthCallback = () => {
       try {
         setStatus('authenticating');
         
+        // Debug: Log current URL and parameters
+        console.log('Current URL:', window.location.href);
+        console.log('Hash:', window.location.hash);
+        console.log('Search params:', window.location.search);
+        
         // Check if this is a Supabase OAuth callback (has hash fragment)
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const hash = window.location.hash;
+        const hashParams = new URLSearchParams(hash.substring(1));
         const accessToken = hashParams.get('access_token');
+        const refreshToken = hashParams.get('refresh_token');
+        
+        console.log('Access token found:', !!accessToken);
+        console.log('Refresh token found:', !!refreshToken);
         
         if (accessToken) {
           // This is a Supabase OAuth callback - redirect to dashboard
+          console.log('Supabase OAuth detected, redirecting to dashboard');
           setStatus('success');
           setTimeout(() => {
             navigate('/analysis-dashboard', { replace: true });
@@ -33,12 +45,17 @@ const AuthCallback = () => {
         const state = searchParams.get('state');
         const errorParam = searchParams.get('error');
 
+        console.log('OAuth code found:', !!code);
+        console.log('OAuth state:', state);
+        console.log('OAuth error:', errorParam);
+
         if (errorParam) {
           throw new Error(searchParams.get('error_description') || 'Authentication failed');
         }
 
         if (code) {
           // Handle ScaleKit authentication callback
+          console.log('ScaleKit OAuth detected, processing...');
           const user = await handleAuthCallback(code, state);
           setStatus('success');
           
@@ -51,7 +68,19 @@ const AuthCallback = () => {
           return;
         }
 
-        // If no access token or code, redirect to login
+        // Check if user is already authenticated via Supabase session
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          console.log('Existing Supabase session found, redirecting to dashboard');
+          setStatus('success');
+          setTimeout(() => {
+            navigate('/analysis-dashboard', { replace: true });
+          }, 1500);
+          return;
+        }
+
+        // If no access token, code, or session, redirect to login
+        console.log('No valid authentication found, redirecting to login');
         throw new Error('No valid authentication response received');
 
       } catch (error) {
