@@ -13,6 +13,22 @@ const AuthCallback = () => {
   useEffect(() => {
     const processCallback = async () => {
       try {
+        setStatus('authenticating');
+        
+        // Check if this is a Supabase OAuth callback (has hash fragment)
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = hashParams.get('access_token');
+        
+        if (accessToken) {
+          // This is a Supabase OAuth callback - redirect to dashboard
+          setStatus('success');
+          setTimeout(() => {
+            navigate('/analysis-dashboard', { replace: true });
+          }, 1500);
+          return;
+        }
+
+        // Check for ScaleKit OAuth callback (has code parameter)
         const code = searchParams.get('code');
         const state = searchParams.get('state');
         const errorParam = searchParams.get('error');
@@ -21,23 +37,22 @@ const AuthCallback = () => {
           throw new Error(searchParams.get('error_description') || 'Authentication failed');
         }
 
-        if (!code) {
-          throw new Error('No authorization code received');
+        if (code) {
+          // Handle ScaleKit authentication callback
+          const user = await handleAuthCallback(code, state);
+          setStatus('success');
+          
+          // Redirect based on the original state or default to dashboard
+          const redirectTo = state === 'signup' ? '/upload-interface' : '/analysis-dashboard';
+          
+          setTimeout(() => {
+            navigate(redirectTo, { replace: true });
+          }, 2000);
+          return;
         }
 
-        setStatus('authenticating');
-        
-        // Handle the authentication callback
-        const user = await handleAuthCallback(code, state);
-        
-        setStatus('success');
-        
-        // Redirect based on the original state or default to dashboard
-        const redirectTo = state === 'signup' ? '/upload-interface' : '/analysis-dashboard';
-        
-        setTimeout(() => {
-          navigate(redirectTo, { replace: true });
-        }, 2000);
+        // If no access token or code, redirect to login
+        throw new Error('No valid authentication response received');
 
       } catch (error) {
         console.error('Auth callback error:', error);
