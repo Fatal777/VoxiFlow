@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '../AppIcon';
 import Button from './Button';
 import { useAuth } from '../../contexts/AuthContext';
+import { cn } from '../../utils/cn';
 
 const Header = ({ className = '' }) => {
   const location = useLocation();
