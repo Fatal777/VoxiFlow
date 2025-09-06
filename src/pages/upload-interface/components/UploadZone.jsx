@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
+import SampleFileButton from '../../../components/ui/SampleFileButton';
 
 const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
   const [dragActive, setDragActive] = useState(false);
@@ -104,6 +105,14 @@ const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
                 <Button variant="outline" iconName="Mic" iconPosition="left" className="border-purple-600/30 text-purple-400 hover:bg-purple-600 hover:text-white">
                   Record Live
                 </Button>
+              </div>
+              
+              {/* Sample File Section */}
+              <div className="mt-8 pt-6 border-t border-gray-700">
+                <SampleFileButton 
+                  onSampleLoad={onFileSelect}
+                  disabled={isUploading}
+                />
               </div>
             </div>
           )}

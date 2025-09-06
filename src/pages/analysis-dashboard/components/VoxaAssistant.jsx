@@ -118,8 +118,8 @@ const VoxaAssistant = ({ isOpen, onToggle, recommendations, insights }) => {
       <div className="p-4 border-b border-border bg-gradient-to-r from-purple-600 to-blue-600 rounded-t-lg">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <Icon name="Bot" size={20} className="text-white" />
+            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md">
+              <Icon name="Mic" size={20} className="text-purple-600" />
             </div>
             <div>
               <h3 className="font-semibold text-white">Voxa AI</h3>
@@ -167,16 +167,16 @@ const VoxaAssistant = ({ isOpen, onToggle, recommendations, insights }) => {
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
               message.type === 'user' 
-                ? 'bg-primary text-white' 
-                : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                ? 'bg-purple-600 text-white' 
+                : 'bg-white border-2 border-purple-600'
             }`}>
-              <Icon name={message.type === 'user' ? 'User' : 'Bot'} size={16} />
+              <Icon name={message.type === 'user' ? 'User' : 'Mic'} size={16} className={message.type === 'user' ? 'text-white' : 'text-purple-600'} />
             </div>
             <div className={`flex-1 ${message.type === 'user' ? 'text-right' : ''}`}>
               <div className={`rounded-lg p-3 ${
                 message.type === 'user'
-                  ? 'bg-primary text-white ml-8'
-                  : 'bg-muted text-foreground mr-8'
+                  ? 'bg-purple-600 text-white ml-8'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 mr-8'
               }`}>
                 {message.type === 'assistant' && (
                   <div className="flex items-center space-x-2 mb-1">
@@ -211,8 +211,8 @@ const VoxaAssistant = ({ isOpen, onToggle, recommendations, insights }) => {
 
         {isTyping && (
           <div className="flex items-start space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-              <Icon name="Bot" size={16} className="text-white" />
+            <div className="w-8 h-8 bg-white border-2 border-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <Icon name="Mic" size={16} className="text-purple-600" />
             </div>
             <div className="flex-1 bg-muted rounded-lg p-3 mr-8">
               <div className="flex items-center space-x-1">
@@ -243,8 +243,9 @@ const VoxaAssistant = ({ isOpen, onToggle, recommendations, insights }) => {
             value={inputValue}
             onChange={(e) => setInputValue(e?.target?.value)}
             placeholder="Or type your question..."
-            className="flex-1"
+            className="flex-1 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
             onKeyPress={(e) => e?.key === 'Enter' && handleSendMessage(inputValue)}
+            disabled={isTyping}
           />
           <Button
             onClick={() => handleSendMessage(inputValue)}

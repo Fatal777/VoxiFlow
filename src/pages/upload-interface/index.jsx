@@ -51,7 +51,16 @@ const UploadInterface = () => {
 
   const handleFileSelect = (file) => {
     setSelectedFile(file);
-    simulateUpload(file);
+    
+    // Check if it's a sample file with pre-loaded data
+    if (file.sampleData) {
+      // For sample files, skip upload simulation and go straight to analysis
+      setTimeout(() => {
+        handleStartAnalysis(file);
+      }, 500);
+    } else {
+      simulateUpload(file);
+    }
   };
 
   const handleRecordingComplete = (recordedFile) => {
