@@ -5,8 +5,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
+import PasswordInput from '../../components/ui/PasswordInput';
 import Icon from '../../components/AppIcon';
-import Footer from '../landing-page/components/Footer';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="h-screen bg-black flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
@@ -136,7 +136,7 @@ const SignupPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center px-4 py-8 relative z-10">
+      <div className="w-full flex items-center justify-center px-4 relative z-10">
         <div className="w-full max-w-lg">
         {/* Header */}
         <motion.div
@@ -147,7 +147,10 @@ const SignupPage = () => {
         >
           <div className="flex items-center justify-center mb-4">
             <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-purple-600/25">
-              <Icon name="Mic" size={28} className="text-white" />
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                <path d="M12 2C13.1046 2 14 2.89543 14 4V12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12V4C10 2.89543 10.8954 2 12 2Z" fill="currentColor"/>
+                <path d="M19 10V12C19 16.4183 15.4183 20 11 20H10V22H14C14.5523 22 15 22.4477 15 23C15 23.5523 14.5523 24 14 24H10C9.44772 24 9 23.5523 9 23C9 22.4477 9.44772 22 10 22H10V20C5.58172 20 2 16.4183 2 12V10C2 9.44772 2.44772 9 3 9C3.55228 9 4 9.44772 4 10V12C4 15.3137 6.68629 18 10 18H14C17.3137 18 20 15.3137 20 12V10C20 9.44772 20.4477 9 21 9C21.5523 9 22 9.44772 22 10Z" fill="currentColor"/>
+              </svg>
             </div>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Create your account</h1>
@@ -244,15 +247,14 @@ const SignupPage = () => {
                 Password
               </label>
               <div className="relative">
-                <Icon name="Lock" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
+                <Icon name="Lock" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
+                <PasswordInput
                   id="password"
                   name="password"
-                  type="password"
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="Create a password"
-                  className={`w-full pl-10 pr-4 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm`}
+                  className={`w-full pl-10 pr-12 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm`}
                   required
                 />
               </div>
@@ -267,15 +269,14 @@ const SignupPage = () => {
                 Confirm Password
               </label>
               <div className="relative">
-                <Icon name="Lock" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
+                <Icon name="Lock" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
+                <PasswordInput
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   placeholder="Confirm your password"
-                  className={`w-full pl-10 pr-4 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm`}
+                  className={`w-full pl-10 pr-12 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm`}
                   required
                 />
               </div>
@@ -410,8 +411,6 @@ const SignupPage = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };
