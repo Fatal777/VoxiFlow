@@ -76,15 +76,31 @@ const DemoSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 via-purple-50/50 to-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-purple-800 to-gray-900 bg-clip-text text-transparent mb-6">
+    <section className="py-16 sm:py-20 bg-black relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 -left-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="text-center mb-12 sm:mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-purple-300 to-white bg-clip-text text-transparent mb-6"
+          >
             See VoxiFlow in Action
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto"
+          >
             Experience how our AI transforms sales conversations into actionable insights through interactive demonstrations.
-          </p>
+          </motion.p>
         </div>
 
         {/* Demo Navigation */}
@@ -96,16 +112,23 @@ const DemoSection = () => {
                 <motion.button
                   key={demo?.id}
                   onClick={() => setActiveDemo(index)}
-                  className={`w-full text-left p-6 rounded-xl border-2 transition-all duration-300 ${
+                  className={`w-full text-left p-4 sm:p-6 rounded-xl border transition-all duration-300 ${
                     activeDemo === index
-                      ? 'border-purple-500 bg-gradient-to-r from-purple-50 to-blue-50 shadow-lg'
-                      : 'border-gray-200 bg-white/80 backdrop-blur-sm hover:border-purple-300 hover:shadow-md'
+                      ? 'border-purple-500 bg-purple-600/10 backdrop-blur-sm shadow-lg shadow-purple-500/20'
+                      : 'border-gray-700 bg-gray-900/50 backdrop-blur-sm hover:border-purple-400 hover:bg-gray-800/50'
                   }`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <h3 className="text-lg font-semibold mb-2">{demo?.title}</h3>
-                  <p className="text-sm opacity-80">{demo?.description}</p>
+                  <h3 className={`text-lg font-semibold mb-2 ${
+                    activeDemo === index ? 'text-purple-300' : 'text-white'
+                  }`}>{demo?.title}</h3>
+                  <p className={`text-sm ${
+                    activeDemo === index ? 'text-gray-300' : 'text-gray-400'
+                  }`}>{demo?.description}</p>
                 </motion.button>
               ))}
             </div>
@@ -113,7 +136,7 @@ const DemoSection = () => {
 
           {/* Demo Content */}
           <div className="lg:w-2/3">
-            <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-purple-200/50 p-8 h-96 relative overflow-hidden">
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl shadow-lg border border-gray-700 p-6 sm:p-8 h-80 sm:h-96 relative overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeDemo}

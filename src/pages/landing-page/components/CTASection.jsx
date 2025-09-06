@@ -19,9 +19,15 @@ const CTASection = () => {
   ];
 
   return (
-    <section className="py-20 bg-black">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="relative overflow-hidden rounded-2xl bg-gray-900 border border-purple-600/30 p-12 md:p-16">
+    <section className="py-16 sm:py-20 bg-black relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-xl border border-purple-600/30 p-8 sm:p-12 md:p-16 shadow-2xl">
 
           <div className="relative max-w-6xl mx-auto">
         <motion.div
@@ -38,10 +44,10 @@ const CTASection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
             >
               Ready to Transform Your{' '}
-              <span className="text-purple-400">
+              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
                 Sales Conversations?
               </span>
             </motion.h2>
@@ -51,7 +57,7 @@ const CTASection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed"
+              className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed"
             >
               Join thousands of sales professionals who are already using VoxiFlow to extract actionable insights 
               and improve their performance with AI-powered analysis.
@@ -63,7 +69,7 @@ const CTASection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12"
             >
               {benefits?.map((benefit, index) => (
                 <motion.div
@@ -72,7 +78,7 @@ const CTASection = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex flex-col items-center p-4 bg-gray-800 border border-purple-600/30 rounded-xl hover:border-purple-400 transition-all duration-300"
+                  className="flex flex-col items-center p-3 sm:p-4 bg-gray-800/50 backdrop-blur-sm border border-purple-600/30 rounded-xl hover:border-purple-400 hover:bg-gray-700/50 transition-all duration-300"
                 >
                   <div className="w-12 h-12 bg-purple-600/20 border border-purple-400/30 rounded-lg flex items-center justify-center mb-3">
                     <Icon name={benefit?.icon} size={24} className="text-purple-300" />

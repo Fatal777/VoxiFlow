@@ -98,32 +98,43 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-12">
-            <span className="text-purple-400">{words[currentWord]}</span> Your Sales Calls
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+            <motion.span 
+              key={currentWord}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="text-purple-400 inline-block"
+            >
+              {words[currentWord]}
+            </motion.span> Your Sales Calls
           </h1>
           
-          <p className="text-xl md:text-2xl text-gray-300 mb-16 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed px-4">
             Transform conversations into actionable insights with AI-powered analysis, 
             real-time transcription, and intelligent recommendations.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
             <Button
               onClick={handleGetStarted}
-              size="lg"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg"
+              size="xl"
+              className="w-full sm:w-auto min-w-[200px]"
+              iconName="Play"
+              iconPosition="left"
             >
-              <Icon name="Play" size={20} className="mr-2" />
               Get Started
             </Button>
             
             <Button
               onClick={() => navigate('/demo')}
               variant="outline"
-              size="lg"
-              className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-black px-8 py-4 text-lg"
+              size="xl"
+              className="w-full sm:w-auto min-w-[200px]"
+              iconName="Eye"
+              iconPosition="left"
             >
-              <Icon name="Eye" size={20} className="mr-2" />
               Watch Demo
             </Button>
           </div>

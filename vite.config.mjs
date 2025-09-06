@@ -8,14 +8,30 @@ export default defineConfig({
   // This changes the out put dir from dist to build
   // comment this out if that isn't relevant for your project
   build: {
-    outDir: "build",
-    chunkSizeWarningLimit: 2000,
+    outDir: 'build',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          ui: ['framer-motion', 'lucide-react'],
+          charts: ['recharts', 'd3'],
+          forms: ['react-hook-form', 'react-dropzone'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
   },
-  plugins: [tsconfigPaths(), react(), tagger()],
+  plugins: [react(), tsconfigPaths(), tagger()],
   server: {
-    port: "4028",
-    host: "0.0.0.0",
-    strictPort: true,
-    allowedHosts: ['.amazonaws.com']
-  }
+    host: true,
+    port: 3000,
+    open: true,
+    allowedHosts: [
+      'localhost',
+      '127.0.0.1',
+      '0.0.0.0',
+    ],
+  },
 });

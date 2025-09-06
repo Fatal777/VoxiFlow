@@ -1,7 +1,7 @@
 // ElevenLabs Text-to-Speech Service for VoxiFlow
 export class ElevenLabsService {
   constructor() {
-    this.apiKey = process.env.REACT_APP_ELEVENLABS_API_KEY;
+    this.apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY;
     this.baseUrl = 'https://api.elevenlabs.io/v1';
     this.defaultVoiceId = 'pNInz6obpgDQGcFmaJgB'; // Adam voice (professional male)
   }

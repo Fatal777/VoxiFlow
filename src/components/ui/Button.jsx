@@ -1,31 +1,33 @@
 import React from 'react';
-import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
-import { cn } from "../../utils/cn";
+import { motion } from 'framer-motion';
+import { cva } from 'class-variance-authority';
+import { Slot } from '@radix-ui/react-slot';
+import { cn } from '../../utils/cn';
 import Icon from '../AppIcon';
+import { buttonHover, buttonTap, springTransition } from '../../utils/animations';
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover-scale",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95 select-none",
     {
         variants: {
             variant: {
-                default: "bg-gradient-to-r from-primary to-accent text-primary-foreground hover:from-primary/90 hover:to-accent/90 premium-shadow",
-                destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 premium-shadow",
-                outline: "border-2 border-input hover:bg-accent hover:text-accent-foreground hover:border-accent/50 premium-shadow",
-                secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 premium-shadow",
-                ghost: "hover:bg-accent hover:text-accent-foreground rounded-2xl",
-                link: "text-primary underline-offset-4 hover:underline rounded-2xl",
-                success: "bg-success text-success-foreground hover:bg-success/90 premium-shadow",
-                warning: "bg-warning text-warning-foreground hover:bg-warning/90 premium-shadow",
-                danger: "bg-error text-error-foreground hover:bg-error/90 premium-shadow",
+                default: "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 border border-purple-500/20",
+                destructive: "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg hover:shadow-xl hover:shadow-red-500/25",
+                outline: "border-2 border-gray-600 bg-transparent text-gray-300 hover:bg-gray-800 hover:text-white hover:border-gray-500 backdrop-blur-sm",
+                secondary: "bg-gray-800 text-gray-200 hover:bg-gray-700 border border-gray-700 hover:border-gray-600",
+                ghost: "text-gray-300 hover:bg-gray-800/50 hover:text-white backdrop-blur-sm",
+                link: "text-purple-400 underline-offset-4 hover:underline hover:text-purple-300",
+                success: "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 shadow-lg hover:shadow-xl hover:shadow-green-500/25",
+                warning: "bg-gradient-to-r from-yellow-600 to-yellow-700 text-white hover:from-yellow-700 hover:to-yellow-800 shadow-lg hover:shadow-xl hover:shadow-yellow-500/25",
+                danger: "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg hover:shadow-xl hover:shadow-red-500/25",
             },
             size: {
-                default: "h-12 px-6 py-3",
-                sm: "h-10 rounded-2xl px-4",
-                lg: "h-14 rounded-2xl px-10",
-                icon: "h-12 w-12",
-                xs: "h-8 rounded-2xl px-3 text-xs",
-                xl: "h-16 rounded-2xl px-12 text-base",
+                default: "h-11 px-6 py-2.5",
+                sm: "h-9 px-4 py-2 text-xs",
+                lg: "h-12 px-8 py-3 text-base",
+                icon: "h-11 w-11 p-0",
+                xs: "h-8 px-3 py-1.5 text-xs",
+                xl: "h-14 px-10 py-3.5 text-lg",
             },
         },
         defaultVariants: {
@@ -144,20 +146,26 @@ const Button = React.forwardRef(({
     }
 
     return (
-        <Comp
-            className={cn(
-                buttonVariants({ variant, size, className }),
-                fullWidth && "w-full"
-            )}
-            ref={ref}
-            disabled={disabled || loading}
-            {...props}
+        <motion.div
+            whileHover={buttonHover}
+            whileTap={buttonTap}
+            transition={springTransition}
         >
-            {loading && <LoadingSpinner />}
-            {iconName && iconPosition === 'left' && renderIcon()}
-            {children}
-            {iconName && iconPosition === 'right' && renderIcon()}
-        </Comp>
+            <Comp
+                className={cn(
+                    buttonVariants({ variant, size, className }),
+                    fullWidth && "w-full"
+                )}
+                ref={ref}
+                disabled={disabled || loading}
+                {...props}
+            >
+                {loading && <LoadingSpinner />}
+                {iconName && iconPosition === 'left' && renderIcon()}
+                {children}
+                {iconName && iconPosition === 'right' && renderIcon()}
+            </Comp>
+        </motion.div>
     );
 });
 

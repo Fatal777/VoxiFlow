@@ -102,12 +102,16 @@ const Header = ({ className = '' }) => {
 
   return (
     <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-nav border-b border-purple-600/30 shadow-sm ${className}`}
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-b border-purple-600/30 transition-all duration-300 shadow-lg shadow-black/50',
+        !isHeaderVisible && '-translate-y-full',
+        className
+      )}
       initial={{ y: -100 }}
       animate={{ y: isHeaderVisible ? 0 : -100 }}
-      transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
-      <div className="flex items-center justify-between h-20 px-8">
+      <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <motion.div 
           className="flex items-center space-x-4 cursor-pointer"
@@ -115,27 +119,27 @@ const Header = ({ className = '' }) => {
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
           onClick={() => navigate('/')}
         >
-          <div className="flex items-center justify-center w-12 h-12 bg-purple-600 rounded-2xl hover-lift">
-            <Icon name="Mic" size={24} color="white" strokeWidth={2.5} />
+          <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl shadow-lg">
+            <Icon name="Mic" size={20} color="white" strokeWidth={2.5} />
           </div>
-          <span className="text-2xl font-bold text-white tracking-tight">
+          <span className="text-xl font-bold text-white tracking-tight hidden sm:block">
             VoxiFlow
           </span>
         </motion.div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-2">
+        <nav className="hidden lg:flex items-center space-x-1">
           {navigationItems?.map((item, index) => (
             <motion.button
               key={item?.path}
               onClick={() => handleNavigation(item?.path)}
-              className={`relative flex items-center space-x-3 px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover-scale group ${
+              className={`relative flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive(item?.path) 
-                  ? 'bg-purple-600/20 text-purple-400 border-2 border-purple-600/30' 
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800/60'
+                  ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30 shadow-lg shadow-purple-500/10' 
+                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50 border border-transparent hover:border-gray-700'
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <Icon 

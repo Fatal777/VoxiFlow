@@ -45,19 +45,25 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-900">
-      <div className="max-w-4xl mx-auto px-6">
+    <section className="py-16 sm:py-20 bg-black relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-purple-600/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6">
             Frequently Asked <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">Questions</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
             Everything you need to know about VoxiFlow's AI-powered sales call analysis platform.
           </p>
         </motion.div>
@@ -70,11 +76,11 @@ const FAQSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl overflow-hidden hover:shadow-lg hover:border-purple-400/50 transition-all duration-300"
+              className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl overflow-hidden hover:shadow-lg hover:border-purple-400/50 hover:bg-gray-800/50 transition-all duration-300"
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors duration-300"
+                className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between hover:bg-gray-700/30 transition-colors duration-300"
               >
                 <h3 className="text-lg font-semibold text-white pr-4">
                   {faq?.question}
@@ -103,7 +109,7 @@ const FAQSection = () => {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-6 pt-2 border-t border-white/20">
+                    <div className="px-4 sm:px-6 pb-4 sm:pb-6 pt-2 border-t border-gray-700">
                       <p className="text-gray-300 leading-relaxed">
                         {faq?.answer}
                       </p>

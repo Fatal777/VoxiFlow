@@ -6,6 +6,7 @@ import { useNotification } from '../../contexts/NotificationContext';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import Icon from '../../components/AppIcon';
+import Footer from '../landing-page/components/Footer';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -53,15 +54,38 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900/20 flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 -left-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-black flex flex-col">
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        
+        {/* Floating particles */}
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-purple-400/30 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -100, 0],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
       </div>
-      
-      <div className="relative z-10 w-full max-w-md">
+
+      {/* Main Content */}
+      <div className="flex-1 flex items-center justify-center px-4 relative z-10">
+        <div className="w-full max-w-md">
         {/* Header */}
         <motion.div
           className="text-center mb-8"
@@ -221,16 +245,20 @@ const LoginPage = () => {
           </div>
         </motion.div>
 
-        {/* Back to Home */}
-        <div className="mt-6 text-center">
-          <Link
-            to="/"
-            className="text-gray-500 hover:text-gray-400 text-sm transition-colors"
-          >
-            ← Back to Home
-          </Link>
+          {/* Back to Home */}
+          <div className="mt-6 text-center">
+            <Link
+              to="/"
+              className="text-gray-500 hover:text-gray-400 text-sm transition-colors"
+            >
+              ← Back to Home
+            </Link>
+          </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
