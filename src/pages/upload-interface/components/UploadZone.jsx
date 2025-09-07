@@ -2,14 +2,13 @@ import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
-import SampleFileButton from '../../../components/ui/SampleFileButton';
 
-const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
+const UploadZone = ({ onFileSelect, isUploading, uploadProgress, onRecordClick }) => {
   const [dragActive, setDragActive] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (rejectedFiles?.length > 0) {
-      // console.log('Rejected files:', rejectedFiles);
       return;
     }
     
@@ -28,6 +27,56 @@ const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
     onDragEnter: () => setDragActive(true),
     onDragLeave: () => setDragActive(false)
   });
+
+  const generateSampleCall = async () => {
+    setIsGenerating(true);
+    
+    try {
+      // ElevenLabs API call to generate sample sales call
+      const response = await fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM', {
+        method: 'POST',
+        headers: {
+          'Accept': 'audio/mpeg',
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.REACT_APP_ELEVENLABS_API_KEY || 'your-api-key-here'
+        },
+        body: JSON.stringify({
+          text: `Hello, this is Sarah from TechSolutions Inc. I'm calling to follow up on your inquiry about our enterprise software package. I understand you're looking for a solution that can handle your growing customer base while maintaining data security. Our platform has helped companies like yours increase efficiency by 40% while reducing operational costs. I'd love to schedule a quick 15-minute demo to show you exactly how this could work for your business. Would next Tuesday at 2 PM work for you, or would you prefer a different time? I'm confident we can provide exactly what you're looking for.`,
+          model_id: "eleven_monolingual_v1",
+          voice_settings: {
+            stability: 0.5,
+            similarity_boost: 0.5
+          }
+        })
+      });
+
+      if (response.ok) {
+        const audioBlob = await response.blob();
+        const audioFile = new File([audioBlob], 'sample-sales-call.mp3', { 
+          type: 'audio/mpeg',
+          lastModified: Date.now()
+        });
+        
+        // Add metadata to indicate this is a generated sample
+        audioFile.sampleData = {
+          type: 'generated',
+          scenario: 'Enterprise Software Sales Call',
+          duration: '2:30',
+          participants: ['Sales Rep (Sarah)', 'Prospect (Client)'],
+          outcome: 'Demo Scheduled'
+        };
+        
+        onFileSelect(audioFile);
+      } else {
+        throw new Error('Failed to generate sample call');
+      }
+    } catch (error) {
+      console.error('Error generating sample call:', error);
+      alert('Failed to generate sample call. Please check your API key or try again later.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -102,17 +151,43 @@ const UploadZone = ({ onFileSelect, isUploading, uploadProgress }) => {
                   Browse Files
                 </Button>
                 <span className="text-gray-400 text-sm">or</span>
-                <Button variant="outline" iconName="Mic" iconPosition="left" className="border-purple-600/30 text-purple-400 hover:bg-purple-600 hover:text-white">
+                <Button 
+                  variant="outline" 
+                  iconName="Mic" 
+                  iconPosition="left" 
+                  className="border-purple-600/30 text-purple-400 hover:bg-purple-600 hover:text-white"
+                  onClick={onRecordClick}
+                >
                   Record Live
                 </Button>
               </div>
               
-              {/* Sample File Section */}
+              {/* Generate Sample Call Section */}
               <div className="mt-8 pt-6 border-t border-gray-700">
-                <SampleFileButton 
-                  onSampleLoad={onFileSelect}
-                  disabled={isUploading}
-                />
+                <div className="text-center space-y-4">
+                  <h4 className="text-sm font-medium text-gray-300">Need a sample to test?</h4>
+                  <Button 
+                    onClick={generateSampleCall}
+                    disabled={isUploading || isGenerating}
+                    variant="outline"
+                    className="border-purple-600/30 text-purple-400 hover:bg-purple-600 hover:text-white"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-purple-400/30 border-t-purple-400 rounded-full animate-spin mr-2" />
+                        Generating Sample Call...
+                      </>
+                    ) : (
+                      <>
+                        <Icon name="Waveform" size={16} className="mr-2" />
+                        Generate AI Sales Call
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-xs text-gray-500">
+                    Powered by ElevenLabs AI - Creates realistic sales conversation
+                  </p>
+                </div>
               </div>
             </div>
           )}

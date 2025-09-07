@@ -49,6 +49,15 @@ const UploadInterface = () => {
     }, 200);
   };
 
+  const handleStartAnalysis = async (file) => {
+    try {
+      await startAnalysis(file);
+      navigate('/analysis-dashboard');
+    } catch (error) {
+      console.error('Analysis failed:', error);
+    }
+  };
+
   const handleFileSelect = (file) => {
     setSelectedFile(file);
     
@@ -102,7 +111,7 @@ const UploadInterface = () => {
   };
 
   return (
-    <div className="h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-black flex flex-col">
       <Header />
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-2xl">
@@ -142,6 +151,7 @@ const UploadInterface = () => {
                   onFileSelect={handleFileSelect}
                   isUploading={isUploading}
                   uploadProgress={uploadProgress}
+                  onRecordClick={toggleRecording}
                 />
               ) : (
                 <FilePreview
@@ -172,6 +182,9 @@ const UploadInterface = () => {
           </div>
         </div>
       </main>
+      
+      <Footer />
+      
       {/* Modals */}
       <AdvancedSettings
         isVisible={showSettings}
