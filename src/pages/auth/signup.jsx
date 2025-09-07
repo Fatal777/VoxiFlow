@@ -107,307 +107,153 @@ const SignupPage = () => {
 
   return (
     <div className="h-screen bg-black flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-        
-        {/* Floating particles */}
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-purple-400/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -80, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-            }}
-          />
-        ))}
-      </div>
 
       {/* Main Content */}
       <div className="w-full flex items-center justify-center px-4 relative z-10">
-        <div className="w-full max-w-lg">
+        <div className="w-full max-w-xs">
         {/* Header */}
         <motion.div
-          className="text-center mb-6"
+          className="text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-purple-600/25">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+          <div className="flex items-center justify-center mb-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-500 rounded-xl flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
                 <path d="M12 2C13.1046 2 14 2.89543 14 4V12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12V4C10 2.89543 10.8954 2 12 2Z" fill="currentColor"/>
                 <path d="M19 10V12C19 16.4183 15.4183 20 11 20H10V22H14C14.5523 22 15 22.4477 15 23C15 23.5523 14.5523 24 14 24H10C9.44772 24 9 23.5523 9 23C9 22.4477 9.44772 22 10 22H10V20C5.58172 20 2 16.4183 2 12V10C2 9.44772 2.44772 9 3 9C3.55228 9 4 9.44772 4 10V12C4 15.3137 6.68629 18 10 18H14C17.3137 18 20 15.3137 20 12V10C20 9.44772 20.4477 9 21 9C21.5523 9 22 9.44772 22 10Z" fill="currentColor"/>
               </svg>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Create your account</h1>
-          <p className="text-gray-400 text-base">Join VoxiFlow and transform your conversations</p>
+          <h1 className="text-xl font-bold text-white mb-1">Create account</h1>
+          <p className="text-gray-400 text-xs">Join VoxiFlow</p>
         </motion.div>
 
         {/* Signup Form */}
         <motion.div
-          className="bg-gray-900/40 backdrop-blur-xl border border-purple-600/20 rounded-3xl p-8 shadow-2xl shadow-black/50"
+          className="bg-gray-900/40 backdrop-blur-xl border border-purple-600/20 rounded-xl p-4 shadow-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Fields */}
-            <div className="grid grid-cols-2 gap-3">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="grid grid-cols-2 gap-2">
+              {/* First Name */}
               <div>
-                <label htmlFor="firstName" className="block text-sm font-semibold text-gray-200 mb-2">
-                  First Name
-                </label>
                 <Input
                   id="firstName"
                   name="firstName"
                   type="text"
                   value={formData.firstName}
                   onChange={handleInputChange}
-                  placeholder="John"
-                  className="w-full h-11 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm"
+                  placeholder="First name"
+                  className={`w-full h-8 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-lg text-xs`}
                   required
                 />
+                {errors.firstName && (
+                  <p className="mt-1 text-xs text-red-400">{errors.firstName}</p>
+                )}
               </div>
+
+              {/* Last Name */}
               <div>
-                <label htmlFor="lastName" className="block text-sm font-semibold text-gray-200 mb-2">
-                  Last Name
-                </label>
                 <Input
                   id="lastName"
                   name="lastName"
                   type="text"
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  placeholder="Doe"
-                  className="w-full h-11 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm"
+                  placeholder="Last name"
+                  className={`w-full h-8 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-lg text-xs`}
                   required
                 />
+                {errors.lastName && (
+                  <p className="mt-1 text-xs text-red-400">{errors.lastName}</p>
+                )}
               </div>
-            </div>
 
             {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <Icon name="Mail" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Enter your email"
-                  className={`w-full pl-10 pr-4 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm`}
-                  required
-                />
-              </div>
+            <div className="col-span-2">
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="Email"
+                className={`w-full h-8 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-lg text-xs`}
+                required
+              />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-400">{errors.email}</p>
+                <p className="mt-1 text-xs text-red-400">{errors.email}</p>
               )}
             </div>
 
-            {/* Company Field */}
-            <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
-                Company <span className="text-gray-500">(Optional)</span>
-              </label>
-              <div className="relative">
-                <Icon name="Building" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
-                  id="company"
-                  name="company"
-                  type="text"
-                  value={formData.company}
-                  onChange={handleInputChange}
-                  placeholder="Your company name"
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm"
-                />
-              </div>
-            </div>
-
             {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Icon name="Lock" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
-                <PasswordInput
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Create a password"
-                  className={`w-full pl-10 pr-12 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm`}
-                  required
-                />
-              </div>
+            <div className="col-span-2">
+              <PasswordInput
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Password"
+                className={`w-full h-8 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-lg text-xs`}
+                required
+              />
               {errors.password && (
-                <p className="mt-1 text-sm text-red-400">{errors.password}</p>
+                <p className="mt-1 text-xs text-red-400">{errors.password}</p>
               )}
             </div>
 
             {/* Confirm Password Field */}
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <Icon name="Lock" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
-                <PasswordInput
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  placeholder="Confirm your password"
-                  className={`w-full pl-10 pr-12 py-3 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-xl text-sm`}
-                  required
-                />
-              </div>
+            <div className="col-span-2">
+              <PasswordInput
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                placeholder="Confirm password"
+                className={`w-full h-8 bg-gray-800/30 backdrop-blur border-gray-600/50 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/50 rounded-lg text-xs`}
+                required
+              />
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-400">{errors.confirmPassword}</p>
+                <p className="mt-1 text-xs text-red-400">{errors.confirmPassword}</p>
               )}
             </div>
 
-            {/* Terms Agreement */}
-            <div>
-              <div className="flex items-start pt-1">
-                <input
-                  type="checkbox"
-                  id="agreeToTerms"
-                  name="agreeToTerms"
-                  checked={formData.agreeToTerms}
-                  onChange={handleInputChange}
-                  className="w-4 h-4 text-purple-600 bg-gray-800/50 border-gray-500 rounded focus:ring-purple-500 focus:ring-2 mt-1"
-                  required
-                />
-                <label htmlFor="agreeToTerms" className="ml-3 text-sm text-gray-300">
-                  I agree to the{' '}
-                  <Link to="/terms" className="text-purple-400 hover:text-purple-300 underline font-medium">
-                    Terms of Service
-                  </Link>{' '}
-                  and{' '}
-                  <Link to="/privacy" className="text-purple-400 hover:text-purple-300 underline font-medium">
-                    Privacy Policy
-                  </Link>
-                </label>
-              </div>
-              {errors.agreeToTerms && (
-                <p className="mt-1 text-sm text-red-400">{errors.agreeToTerms}</p>
-              )}
-            </div>
-
-            {/* General Error */}
-            {(error || authError) && (
-              <div className="flex items-center gap-2 p-3 bg-red-900/30 border border-red-600/30 rounded-lg">
-                <Icon name="AlertCircle" size={16} className="text-red-400" />
-                <span className="text-red-400 text-sm">{error || authError}</span>
-              </div>
-            )}
-
-            {/* Error Display */}
-            {error && (
-              <motion.div
-                className="mb-4 p-3 bg-red-500/10 backdrop-blur border border-red-500/20 rounded-2xl text-red-400 text-sm font-medium"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
+            {/* Create Account Button */}
+            <div className="col-span-2">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-8 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white font-medium text-xs rounded-lg transition-all duration-300"
               >
-                <div className="flex items-center space-x-2">
-                  <Icon name="AlertCircle" size={16} className="text-red-400" />
-                  <span>{error}</span>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-2xl font-medium transition-all duration-200 transform hover:scale-[1.02]"
-              disabled={loading}
-            >
-              {loading ? (
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Creating Account...</span>
-                </div>
-              ) : (
-                'Create Account'
-              )}
-            </Button>
-          </form>
-
-          {/* Divider */}
-          <div className="my-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-600/30"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-gray-900/40 backdrop-blur text-gray-400 font-medium">Or sign up with</span>
-              </div>
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                    Creating...
+                  </div>
+                ) : (
+                  "Create Account"
+                )}
+              </Button>
             </div>
           </div>
 
-          {/* Social Signup */}
-          <div className="grid grid-cols-2 gap-3">
-            <Button
-              variant="outline"
-              className="h-11 border-gray-600/50 bg-gray-800/20 backdrop-blur text-gray-300 hover:bg-gray-700/30 hover:border-gray-500 hover:text-white transition-all duration-300 rounded-xl font-medium"
-              onClick={() => loginWithProvider('github')}
-              disabled={loading}
-            >
-              <Icon name="Github" size={16} className="mr-2" />
-              GitHub
-            </Button>
-            <Button
-              variant="outline"
-              className="h-11 border-gray-600/50 bg-gray-800/20 backdrop-blur text-gray-300 hover:bg-gray-700/30 hover:border-gray-500 hover:text-white transition-all duration-300 rounded-xl font-medium"
-              onClick={() => loginWithProvider('google')}
-              disabled={loading}
-            >
-              <Icon name="Mail" size={16} className="mr-2" />
-              Google
-            </Button>
-          </div>
-
-          {/* Login Link */}
-          <div className="mt-6 text-center">
-            <span className="text-gray-400 text-sm">Already have an account? </span>
+          {/* Sign In Link */}
+          <div className="mt-3 text-center">
+            <span className="text-gray-400 text-xs">Have an account? </span>
             <Link
               to="/login"
-              className="text-purple-400 hover:text-purple-300 text-sm font-semibold transition-colors hover:underline"
+              className="text-purple-400 hover:text-purple-300 text-xs font-medium transition-colors hover:underline"
             >
               Sign in
             </Link>
           </div>
+        </form>
         </motion.div>
 
-          {/* Back to Home */}
-          <div className="mt-4 text-center">
-            <Link
-              to="/"
-              className="text-gray-500 hover:text-gray-400 text-sm transition-colors"
-            >
-              ← Back to Home
-            </Link>
-          </div>
         </div>
       </div>
 

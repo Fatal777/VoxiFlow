@@ -165,83 +165,78 @@ const ResultsSummary = () => {
       <main className="pt-24">
         {/* Hero Section */}
         <motion.div 
-          className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-purple-900/20 border-b border-purple-600/30 pt-16 pb-20"
+          className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-purple-900/20 border-b border-purple-600/30 py-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          {/* Background Pattern */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>
-          </div>
-          
-          <div className="relative max-w-7xl mx-auto px-8">
+          <div className="relative max-w-6xl mx-auto px-6">
+            {/* Header */}
             <motion.div 
-              className="flex flex-col lg:flex-row items-center justify-between mb-12 space-y-8 lg:space-y-0"
+              className="flex flex-col lg:flex-row items-start justify-between mb-8 gap-6"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <motion.div variants={itemVariants} className="text-center lg:text-left">
-                <div className="flex items-center justify-center lg:justify-start space-x-4 mb-6">
-                  <div className="flex items-center justify-center w-20 h-20 bg-purple-600/20 rounded-3xl border border-purple-600/30">
-                    <Icon name="CheckCircle" size={32} className="text-purple-400" />
+              <motion.div variants={itemVariants} className="flex-1">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="flex items-center justify-center w-12 h-12 bg-purple-600/20 rounded-xl border border-purple-600/30">
+                    <Icon name="CheckCircle" size={20} className="text-purple-400" />
                   </div>
                   <div>
-                    <h1 className="text-5xl lg:text-6xl font-bold text-white mb-3 leading-tight">
-                      Analysis
-                      <span className="text-purple-400 block">Complete</span>
+                    <h1 className="text-2xl font-bold text-white">
+                      Analysis Complete
                     </h1>
-                    <p className="text-xl text-gray-300">Comprehensive insights from your sales conversation</p>
+                    <p className="text-sm text-gray-400">Sales conversation insights</p>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
-                  <div className="flex items-center space-x-3 p-4 bg-gray-800 rounded-2xl border border-purple-600/30 hover:border-purple-400 transition-colors">
-                    <Icon name="Calendar" size={18} className="text-gray-400" />
-                    <span className="text-white font-medium">{callSummary?.date}</span>
+                {/* Call Info Cards */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                  <div className="flex items-center space-x-2 p-3 bg-gray-800/50 rounded-lg border border-purple-600/20">
+                    <Icon name="Calendar" size={14} className="text-gray-400" />
+                    <span className="text-white font-medium truncate">{callSummary?.date}</span>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 bg-gray-800 rounded-2xl border border-purple-600/30 hover:border-purple-400 transition-colors">
-                    <Icon name="Clock" size={18} className="text-gray-400" />
+                  <div className="flex items-center space-x-2 p-3 bg-gray-800/50 rounded-lg border border-purple-600/20">
+                    <Icon name="Clock" size={14} className="text-gray-400" />
                     <span className="text-white font-medium">{callSummary?.time}</span>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 bg-gray-800 rounded-2xl border border-purple-600/30 hover:border-purple-400 transition-colors">
-                    <Icon name="Users" size={18} className="text-gray-400" />
+                  <div className="flex items-center space-x-2 p-3 bg-gray-800/50 rounded-lg border border-purple-600/20">
+                    <Icon name="Users" size={14} className="text-gray-400" />
                     <span className="text-white font-medium">{callSummary?.participants?.length} participants</span>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 bg-gray-800 rounded-2xl border border-purple-600/30 hover:border-purple-400 transition-colors">
-                    <Icon name="Target" size={18} className="text-green-400" />
-                    <span className="text-green-400 font-medium">75% close probability</span>
+                  <div className="flex items-center space-x-2 p-3 bg-green-600/20 rounded-lg border border-green-400/30">
+                    <Icon name="Target" size={14} className="text-green-400" />
+                    <span className="text-green-400 font-medium">75% close</span>
                   </div>
                 </div>
               </motion.div>
               
               <motion.div 
-                className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4"
+                className="flex flex-col sm:flex-row gap-3"
                 variants={itemVariants}
               >
                 <Button
                   variant="outline"
                   onClick={() => navigate('/upload-interface')}
-                  className="w-full sm:w-auto bg-gray-800/50 border-purple-600/50 text-white hover:bg-purple-600 hover:border-purple-500 rounded-2xl px-8 py-4 transition-all duration-300"
+                  className="bg-gray-800/50 border-purple-600/50 text-white hover:bg-purple-600 hover:border-purple-500 rounded-lg px-4 py-2 text-sm"
                 >
-                  <Icon name="Upload" size={18} className="mr-2" />
+                  <Icon name="Upload" size={16} className="mr-2" />
                   New Analysis
                 </Button>
                 <Button
                   onClick={() => setActiveTab('export')}
-                  className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white rounded-2xl px-8 py-4 shadow-lg transition-all duration-300"
+                  className="bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2 text-sm"
                 >
-                  <Icon name="Share" size={18} className="mr-2" />
+                  <Icon name="Share" size={16} className="mr-2" />
                   Share Results
                 </Button>
               </motion.div>
             </motion.div>
 
-            {/* Quick Stats */}
+            {/* KPI Cards */}
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
               variants={containerVariants}
               initial="hidden"
               animate="visible"

@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 
 const FlowchartVisualization = () => {
   const [selectedNode, setSelectedNode] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
+  const [isBuilding, setIsBuilding] = useState(false);
+  const [buildStep, setBuildStep] = useState(0);
   const svgRef = useRef(null);
 
   const flowchartData = {
@@ -12,7 +15,7 @@ const FlowchartVisualization = () => {
       {
         id: 'start',
         type: 'start',
-        x: 100,
+        x: 150,
         y: 50,
         label: 'Call Start',
         timestamp: '00:00',
@@ -22,7 +25,7 @@ const FlowchartVisualization = () => {
       {
         id: 'discovery',
         type: 'process',
-        x: 100,
+        x: 150,
         y: 150,
         label: 'Discovery Phase',
         timestamp: '02:30',
@@ -32,7 +35,7 @@ const FlowchartVisualization = () => {
       {
         id: 'objection1',
         type: 'decision',
-        x: 300,
+        x: 350,
         y: 150,
         label: 'Price Objection',
         timestamp: '08:15',
@@ -42,7 +45,7 @@ const FlowchartVisualization = () => {
       {
         id: 'response1',
         type: 'process',
-        x: 300,
+        x: 350,
         y: 250,
         label: 'Value Proposition',
         timestamp: '09:45',
@@ -52,7 +55,7 @@ const FlowchartVisualization = () => {
       {
         id: 'closing',
         type: 'process',
-        x: 100,
+        x: 150,
         y: 350,
         label: 'Closing Attempt',
         timestamp: '18:20',
@@ -62,7 +65,7 @@ const FlowchartVisualization = () => {
       {
         id: 'outcome',
         type: 'end',
-        x: 100,
+        x: 150,
         y: 450,
         label: 'Follow-up Scheduled',
         timestamp: '22:00',
@@ -77,6 +80,18 @@ const FlowchartVisualization = () => {
       { from: 'response1', to: 'closing' },
       { from: 'closing', to: 'outcome' }
     ]
+  };
+
+  const buildFlowchart = async () => {
+    setIsBuilding(true);
+    setBuildStep(0);
+    
+    for (let i = 0; i <= flowchartData.nodes.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setBuildStep(i);
+    }
+    
+    setIsBuilding(false);
   };
 
   const getNodeColor = (sentiment) => {
@@ -114,41 +129,54 @@ const FlowchartVisualization = () => {
   };
 
   return (
-    <div className="bg-card border border-border rounded-xl overflow-hidden">
+    <div className="bg-gray-900/50 border border-purple-600/30 rounded-xl overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="flex items-center justify-between p-4 border-b border-purple-600/30">
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Conversation Flow</h3>
-          <p className="text-sm text-muted-foreground">Interactive visualization of call progression</p>
+          <h3 className="text-lg font-semibold text-white">Conversation Flow</h3>
+          <p className="text-sm text-gray-400">Interactive visualization of call progression</p>
         </div>
         
         {/* Controls */}
         <div className="flex items-center space-x-2">
+          <motion.button
+            onClick={buildFlowchart}
+            disabled={isBuilding}
+            className="flex items-center space-x-2 px-3 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 text-white rounded-lg transition-colors text-sm"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Icon name={isBuilding ? "Loader2" : "Play"} size={14} className={isBuilding ? "animate-spin" : ""} />
+            <span>{isBuilding ? "Building..." : "Build Flow"}</span>
+          </motion.button>
+          
+          <div className="w-px h-6 bg-gray-700" />
+          
           <button
             onClick={handleZoomOut}
-            className="flex items-center justify-center w-8 h-8 bg-muted hover:bg-muted/80 rounded-lg transition-colors"
+            className="flex items-center justify-center w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <Icon name="ZoomOut" size={16} />
+            <Icon name="ZoomOut" size={16} className="text-gray-300" />
           </button>
-          <span className="text-sm text-muted-foreground px-2">
+          <span className="text-sm text-gray-400 px-2">
             {Math.round(zoomLevel * 100)}%
           </span>
           <button
             onClick={handleZoomIn}
-            className="flex items-center justify-center w-8 h-8 bg-muted hover:bg-muted/80 rounded-lg transition-colors"
+            className="flex items-center justify-center w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <Icon name="ZoomIn" size={16} />
+            <Icon name="ZoomIn" size={16} className="text-gray-300" />
           </button>
           <button
             onClick={handleReset}
-            className="flex items-center justify-center w-8 h-8 bg-muted hover:bg-muted/80 rounded-lg transition-colors"
+            className="flex items-center justify-center w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <Icon name="RotateCcw" size={16} />
+            <Icon name="RotateCcw" size={16} className="text-gray-300" />
           </button>
         </div>
       </div>
       {/* Flowchart Canvas */}
-      <div className="relative h-96 overflow-hidden bg-muted/20">
+      <div className="relative h-96 overflow-hidden bg-gray-800/30">
         <svg
           ref={svgRef}
           className="w-full h-full cursor-grab active:cursor-grabbing"
@@ -168,7 +196,7 @@ const FlowchartVisualization = () => {
             >
               <polygon
                 points="0 0, 10 3.5, 0 7"
-                fill="rgba(255, 255, 255, 0.6)"
+                fill="#a855f7"
               />
             </marker>
           </defs>
@@ -176,109 +204,140 @@ const FlowchartVisualization = () => {
           {flowchartData?.connections?.map((connection, index) => {
             const fromNode = flowchartData?.nodes?.find(n => n?.id === connection?.from);
             const toNode = flowchartData?.nodes?.find(n => n?.id === connection?.to);
+            const shouldShow = !isBuilding || index < buildStep;
             
-            return (
-              <line
+            return shouldShow ? (
+              <motion.line
                 key={index}
-                x1={fromNode?.x + 50}
-                y1={fromNode?.y + 40}
-                x2={toNode?.x + 50}
+                x1={fromNode?.x + 60}
+                y1={fromNode?.y + 30}
+                x2={toNode?.x + 60}
                 y2={toNode?.y}
-                stroke="rgba(255, 255, 255, 0.6)"
+                stroke="#a855f7"
                 strokeWidth="2"
                 markerEnd="url(#arrowhead)"
-                className="transition-all duration-300"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 0.8, delay: index * 0.3 }}
               />
-            );
+            ) : null;
           })}
 
           {/* Nodes */}
-          {flowchartData?.nodes?.map((node) => (
-            <g
-              key={node?.id}
-              transform={`translate(${node?.x}, ${node?.y})`}
-              className="cursor-pointer transition-all duration-300 hover:scale-110"
-              onClick={() => handleNodeClick(node)}
-            >
-              {/* Node Background */}
-              <rect
-                width="100"
-                height="40"
-                rx="8"
-                fill={selectedNode?.id === node?.id ? getNodeColor(node?.sentiment) : 'rgba(255, 255, 255, 0.1)'}
-                stroke={getNodeColor(node?.sentiment)}
-                strokeWidth="2"
-                className="transition-all duration-300"
-              />
-              
-              {/* Node Icon */}
-              <foreignObject x="8" y="8" width="24" height="24">
-                <Icon 
-                  name={getNodeIcon(node?.type)} 
-                  size={16} 
-                  color={selectedNode?.id === node?.id ? '#000' : '#fff'} 
-                />
-              </foreignObject>
-              
-              {/* Node Label */}
-              <text
-                x="50"
-                y="25"
-                textAnchor="middle"
-                fill={selectedNode?.id === node?.id ? '#000' : '#fff'}
-                fontSize="12"
-                fontWeight="500"
-                className="pointer-events-none"
+          {flowchartData?.nodes?.map((node, index) => {
+            const shouldShow = !isBuilding || index < buildStep;
+            
+            return shouldShow ? (
+              <motion.g
+                key={node?.id}
+                transform={`translate(${node?.x}, ${node?.y})`}
+                className="cursor-pointer"
+                onClick={() => handleNodeClick(node)}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.3 }}
+                whileHover={{ scale: 1.1 }}
               >
-                {node?.label}
-              </text>
-            </g>
-          ))}
+                {/* Node Background */}
+                <rect
+                  width="120"
+                  height="60"
+                  rx="12"
+                  fill={selectedNode?.id === node?.id ? getNodeColor(node?.sentiment) : 'rgba(31, 41, 55, 0.8)'}
+                  stroke={getNodeColor(node?.sentiment)}
+                  strokeWidth="2"
+                  className="transition-all duration-300"
+                />
+                
+                {/* Node Icon */}
+                <foreignObject x="10" y="10" width="24" height="24">
+                  <Icon 
+                    name={getNodeIcon(node?.type)} 
+                    size={16} 
+                    color={selectedNode?.id === node?.id ? '#000' : '#fff'} 
+                  />
+                </foreignObject>
+                
+                {/* Node Label */}
+                <text
+                  x="60"
+                  y="25"
+                  textAnchor="middle"
+                  fill={selectedNode?.id === node?.id ? '#000' : '#fff'}
+                  fontSize="11"
+                  fontWeight="600"
+                  className="pointer-events-none"
+                >
+                  {node?.label}
+                </text>
+                
+                {/* Timestamp */}
+                <text
+                  x="60"
+                  y="45"
+                  textAnchor="middle"
+                  fill={selectedNode?.id === node?.id ? '#000' : '#a1a1aa'}
+                  fontSize="9"
+                  className="pointer-events-none"
+                >
+                  {node?.timestamp}
+                </text>
+              </motion.g>
+            ) : null;
+          })}
         </svg>
 
         {/* Node Details Panel */}
         {selectedNode && (
-          <div className="absolute top-4 right-4 w-80 bg-popover border border-border rounded-lg p-4 shadow-elevation-3">
+          <motion.div 
+            className="absolute top-4 right-4 w-80 bg-gray-900/95 backdrop-blur border border-purple-600/30 rounded-lg p-4 shadow-xl"
+            initial={{ opacity: 0, scale: 0.9, x: 20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.9, x: 20 }}
+          >
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center space-x-2">
                 <div 
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: getNodeColor(selectedNode?.sentiment) }}
                 />
-                <h4 className="font-semibold text-foreground">{selectedNode?.label}</h4>
+                <h4 className="font-semibold text-white">{selectedNode?.label}</h4>
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-gray-400 hover:text-white transition-colors"
               >
                 <Icon name="X" size={16} />
               </button>
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center space-x-2 text-sm">
-                <Icon name="Clock" size={14} className="text-muted-foreground" />
-                <span className="text-muted-foreground">Timestamp:</span>
-                <span className="text-foreground font-medium">{selectedNode?.timestamp}</span>
+                <Icon name="Clock" size={14} className="text-gray-400" />
+                <span className="text-gray-400">Timestamp:</span>
+                <span className="text-white font-medium">{selectedNode?.timestamp}</span>
               </div>
               
               <div className="text-sm">
-                <span className="text-muted-foreground">Content:</span>
-                <p className="text-foreground mt-1">{selectedNode?.content}</p>
+                <span className="text-gray-400">Content:</span>
+                <p className="text-white mt-1 text-xs leading-relaxed">{selectedNode?.content}</p>
               </div>
               
               <div className="flex items-center space-x-2 text-sm">
-                <Icon name="Heart" size={14} className="text-muted-foreground" />
-                <span className="text-muted-foreground">Sentiment:</span>
+                <Icon name="Heart" size={14} className="text-gray-400" />
+                <span className="text-gray-400">Sentiment:</span>
                 <span 
-                  className="font-medium capitalize"
-                  style={{ color: getNodeColor(selectedNode?.sentiment) }}
+                  className="font-medium capitalize px-2 py-1 rounded text-xs"
+                  style={{ 
+                    color: getNodeColor(selectedNode?.sentiment),
+                    backgroundColor: `${getNodeColor(selectedNode?.sentiment)}20`
+                  }}
                 >
                   {selectedNode?.sentiment}
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

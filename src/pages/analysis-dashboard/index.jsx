@@ -367,109 +367,146 @@ const AnalysisDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-black">
       <Header />
       
-      <main className="pt-24 flex-1">
-        {/* Header */}
-        <div className="bg-gray-900 border-b border-purple-600/30 px-6 py-4">
-          <div className="flex items-center justify-between">
+      <main className="pt-24 pb-8">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Compact Header */}
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-                <Icon name="BarChart3" size={28} className="text-purple-400" />
-                Analysis Dashboard
-                <span className="text-gray-300 text-sm font-normal ml-2">
-                  {currentFile?.name || 'Sales Call Analysis'}
-                </span>
-              </h1>
+              <h1 className="text-xl font-bold text-white mb-1">Analysis Dashboard</h1>
+              <p className="text-sm text-gray-400">
+                {currentFile?.name || 'Sales Call Analysis'} • Live insights
+              </p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <Button
-                variant="outline"
-                onClick={() => navigate('/')}
-                iconName="ArrowLeft"
-                iconPosition="left"
-                className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-black"
+                onClick={() => setIsAssistantOpen(true)}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 text-sm"
               >
-                Back to Home
+                <Icon name="MessageCircle" size={16} className="mr-2" />
+                Ask Voxa
               </Button>
               <Button
                 onClick={handleNavigateToResults}
-                className="bg-purple-600 hover:bg-purple-700 text-white"
-                iconName="ExternalLink"
-                iconPosition="right"
+                variant="outline"
+                className="border-purple-600/50 text-purple-400 hover:bg-purple-600 px-3 py-2 text-sm"
               >
-                View Results
+                <Icon name="BarChart3" size={16} className="mr-2" />
+                Results
               </Button>
             </div>
           </div>
-        </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Sidebar */}
-          <div className="w-80 bg-gray-900 border-r border-purple-600/30 flex flex-col">
-            <div className="p-4 border-b border-purple-600/30">
-              <h2 className="font-semibold text-white mb-3">Analysis Views</h2>
-              <div className="space-y-2">
-                {views.map((view) => (
-                  <button
-                    key={view.id}
-                    onClick={() => setActiveView(view.id)}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                      activeView === view.id
-                        ? 'bg-purple-600 text-white'
-                        : 'text-gray-400 hover:text-white hover:bg-gray-800'
-                    }`}
-                  >
-                    <Icon name={view.icon} size={16} />
-                    <span>{view.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Playback Controls */}
-            <div className="p-4 border-b border-purple-600/30">
-              <h3 className="font-semibold text-white mb-3">Playback</h3>
-              <div className="flex items-center space-x-2">
-                <Button
-                  size="sm"
-                  onClick={handleTogglePlayback}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
-                >
-                  <Icon name={isPlaying ? "Pause" : "Play"} size={16} />
-                </Button>
-                <span className="text-gray-300 text-sm">
-                  {Math.floor(currentTime / 60)}:{(currentTime % 60).toString().padStart(2, '0')}
-                </span>
-              </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="p-4 flex-1">
-              <h3 className="font-semibold text-white mb-3">Quick Stats</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Duration</span>
-                  <span className="text-white">5:23</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Speakers</span>
-                  <span className="text-white">2</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Sentiment</span>
-                  <span className="text-green-400">Positive</span>
-                </div>
-              </div>
-            </div>
+          {/* View Tabs */}
+          <div className="flex items-center space-x-1 mb-6 bg-gray-900/50 rounded-lg p-1">
+            {views.map((view) => (
+              <button
+                key={view.id}
+                onClick={() => setActiveView(view.id)}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-xs font-medium transition-all ${
+                  activeView === view.id
+                    ? 'bg-purple-600 text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                }`}
+              >
+                <Icon name={view.icon} size={14} />
+                <span>{view.label}</span>
+              </button>
+            ))}
           </div>
 
-          {/* Content Area */}
-          <div className="flex-1 bg-black overflow-hidden">
-            <div className="h-full bg-gray-900 border border-purple-600/30 rounded-lg m-4 overflow-hidden">
-              {renderActiveView()}
+          {/* Content Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Main Content */}
+            <div className="lg:col-span-3">
+              <div className="bg-gray-900/50 border border-purple-600/30 rounded-xl overflow-hidden">
+                {renderActiveView()}
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="lg:col-span-1 space-y-4">
+              {/* Playback Controls */}
+              <div className="bg-gray-900/50 border border-purple-600/30 rounded-xl p-4">
+                <h3 className="text-sm font-semibold text-white mb-3 flex items-center">
+                  <Icon name="Play" size={16} className="mr-2 text-purple-400" />
+                  Playback
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-center">
+                    <Button
+                      onClick={handleTogglePlayback}
+                      className="w-12 h-12 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center"
+                    >
+                      <Icon name={isPlaying ? "Pause" : "Play"} size={18} />
+                    </Button>
+                  </div>
+                  <div className="text-center">
+                    <span className="text-white text-sm">
+                      {Math.floor(currentTime / 60)}:{(currentTime % 60).toString().padStart(2, '0')} / 5:23
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div 
+                      className="bg-purple-600 h-2 rounded-full transition-all"
+                      style={{ width: `${(currentTime / 323) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="bg-gray-900/50 border border-purple-600/30 rounded-xl p-4">
+                <h3 className="text-sm font-semibold text-white mb-3 flex items-center">
+                  <Icon name="Activity" size={16} className="mr-2 text-purple-400" />
+                  Live Stats
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-400">Duration</span>
+                    <span className="text-white">5:23</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-400">Speakers</span>
+                    <span className="text-white">2</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-400">Sentiment</span>
+                    <span className="text-green-400">Positive</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-400">Confidence</span>
+                    <span className="text-white">94%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="bg-gray-900/50 border border-purple-600/30 rounded-xl p-4">
+                <h3 className="text-sm font-semibold text-white mb-3 flex items-center">
+                  <Icon name="Zap" size={16} className="mr-2 text-purple-400" />
+                  Actions
+                </h3>
+                <div className="space-y-2">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-xs bg-gray-800/30 border-gray-600 text-gray-300 hover:bg-purple-600/20"
+                    onClick={handleNavigateToResults}
+                  >
+                    <Icon name="FileText" size={14} className="mr-2" />
+                    Full Report
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-xs bg-gray-800/30 border-gray-600 text-gray-300 hover:bg-purple-600/20"
+                  >
+                    <Icon name="Download" size={14} className="mr-2" />
+                    Export
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -478,12 +515,10 @@ const AnalysisDashboard = () => {
       {/* Voxa Assistant */}
       <VoxaAssistant
         isOpen={isAssistantOpen}
-        onToggle={() => setIsAssistantOpen(!isAssistantOpen)}
-        recommendations={mockRecommendations}
-        insights={mockInsights}
+        onClose={() => setIsAssistantOpen(false)}
+        transcript={transcript || mockTranscript}
+        insights={insights || mockInsights}
       />
-      
-      <Footer />
     </div>
   );
 };

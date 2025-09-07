@@ -33,7 +33,42 @@ export const AnalysisProvider = ({ children }) => {
       setProcessingStatus('processing');
       setProcessingProgress(0);
 
-      // Start transcription
+      // Check if this is a demo file with pre-loaded data
+      if (file.sampleData) {
+        setProcessingMessage('Loading demo data...');
+        
+        // Simulate processing for demo files
+        const steps = [
+          { progress: 20, message: 'Processing audio file...' },
+          { progress: 50, message: 'Transcribing conversation...' },
+          { progress: 80, message: 'Analyzing insights...' },
+          { progress: 100, message: 'Analysis complete!' }
+        ];
+
+        for (const step of steps) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+          setProcessingProgress(step.progress);
+          setProcessingMessage(step.message);
+        }
+
+        // Convert transcript string to structured format
+        const transcriptLines = file.sampleData.transcript.split('\n\n').map((line, index) => {
+          const [speaker, ...textParts] = line.split(': ');
+          return {
+            id: index,
+            speaker: speaker.trim(),
+            text: textParts.join(': ').trim(),
+            timestamp: index * 15 // Mock timestamps
+          };
+        }).filter(line => line.text);
+
+        setTranscript(transcriptLines);
+        setInsights(file.sampleData.insights);
+        setProcessingStatus('completed');
+        return;
+      }
+
+      // Regular file processing
       const transcriptData = await audioProcessor.transcribeAudio(
         file,
         (progress, message) => {
